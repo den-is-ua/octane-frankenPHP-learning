@@ -13,6 +13,27 @@ class HightloadController extends Controller
         $started = microtime(true);
         $fakeLoadService = new FakeLoadService;
 
+        $fakeLoadService->fakeCPULoader(100);
+        $fakeLoadService->fakeMemoryLoader(1);
+        $fakeLoadService->fakeSpeedLoader(1);
+
+        $ended = microtime(true);
+        $duration = $ended - $started;
+        $durationMs = $duration * 1000;
+
+        return response()->json([
+            'status' => 'ok',
+            'time' => now()->toIso8601String(),
+            'duration_ms' => $durationMs,
+            'duration_s' => $duration,
+        ]);
+    }
+
+    public function concurrency(): JsonResponse
+    {
+        $started = microtime(true);
+        $fakeLoadService = new FakeLoadService;
+
         Octane::concurrently([
             function () use ($fakeLoadService) {
                 $fakeLoadService->fakeSpeedLoader(1);
