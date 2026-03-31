@@ -2,4 +2,4 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
-exec docker compose exec app "${@:-bash}"
+exec docker compose exec octane-frankenphp "${@:-bash}"
